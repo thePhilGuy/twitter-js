@@ -14,6 +14,10 @@ module.exports = {
 
 	find: function(properties) {
 		return _.where(data, properties);
+	},
+
+	new_id: function() {
+		return count + 1;
 	}
 };
 

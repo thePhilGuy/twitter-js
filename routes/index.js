@@ -29,9 +29,14 @@ router.get('/users/:name/tweets/:id', function(req,res) {
 });
 
 router.post('/submit', function (req, res) {
-	var tweet = {name: req.body.name, text: req.body.text};
-	tweetBank.add(tweet.name, tweet.text);
+	var name = req.body.name;
+	var text = req.body.text;
+	tweetBank.add(name, text);
+	router.io.sockets.emit('new_tweet', {name:name, text:text, id: tweetBank.new_id()});
 	res.redirect('/');
 });
 
-module.exports = router;
+module.exports = function (io) {
+	router.io = io;
+	return router;
+};
